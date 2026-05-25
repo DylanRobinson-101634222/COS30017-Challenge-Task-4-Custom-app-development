@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="aquatrack_primary">#53C3CB</color>
+    <color name="aquatrack_on_primary">#00363A</color>
+    <color name="aquatrack_background">#0F1719</color>
+    <color name="aquatrack_on_background">#DDE4E6</color>
+    <color name="aquatrack_surface">#172124</color>
+    <color name="aquatrack_on_surface">#DDE4E6</color>
+    <color name="aquatrack_surface_variant">#223136</color>
+    <color name="aquatrack_chip_bg">#2A3E44</color>
+    <color name="aquatrack_outline">#41585E</color>
+    <color name="aquatrack_header_subtext">#8AD5E2</color>
+    <color name="aquatrack_search_container">#18272D</color>
+    <color name="aquatrack_search_text">#B2C2C7</color>
+    <color name="aquatrack_card_title">#E3EEF2</color>
+    <color name="aquatrack_card_muted">#B3C4CA</color>
+    <color name="aquatrack_card_accent">#7DD5E0</color>
+    <color name="aquatrack_warning">#FFB4AB</color>
+    <color name="aquatrack_warning_container">#5C1A16</color>
+    <color name="aquatrack_fab_bg">#53C3CB</color>
+    <color name="aquatrack_fab_text">#00363A</color>
+</resources>
+

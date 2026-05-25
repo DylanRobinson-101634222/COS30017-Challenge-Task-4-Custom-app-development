@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/tankListFragment">
+
+    <fragment
+        android:id="@+id/tankListFragment"
+        android:name="com.aquatrack.app.ui.fragments.TankListFragment"
+        android:label="@string/tanks">
+        <action
+            android:id="@+id/action_tankListFragment_to_tankDetailFragment"
+            app:destination="@id/tankDetailFragment" />
+        <action
+            android:id="@+id/action_tankListFragment_to_addEditTankFragment"
+            app:destination="@id/addEditTankFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tankDetailFragment"
+        android:name="com.aquatrack.app.ui.fragments.TankDetailFragment"
+        android:label="@string/tank_detail">
+        <action
+            android:id="@+id/action_tankDetailFragment_to_addEditTankFragment"
+            app:destination="@id/addEditTankFragment" />
+        <action
+            android:id="@+id/action_tankDetailFragment_to_addEditFishFragment"
+            app:destination="@id/addEditFishFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addEditTankFragment"
+        android:name="com.aquatrack.app.ui.fragments.AddEditTankFragment"
+        android:label="@string/add_edit_tank" />
+
+    <fragment
+        android:id="@+id/addEditFishFragment"
+        android:name="com.aquatrack.app.ui.fragments.AddEditFishFragment"
+        android:label="@string/add_edit_fish" />
+
+</navigation>
