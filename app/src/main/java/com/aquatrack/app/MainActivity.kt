@@ -35,11 +35,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navHost.navController, appBarConfiguration)
 
         navHost.navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.tankListFragment) {
-                topAppBar.visibility = View.GONE
-            } else {
-                topAppBar.visibility = View.VISIBLE
-            }
+            topAppBar.visibility = if (destination.id == R.id.tankListFragment) View.GONE else View.VISIBLE
         }
     }
 
