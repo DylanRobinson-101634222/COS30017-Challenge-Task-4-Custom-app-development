@@ -13,6 +13,7 @@ import com.aquatrack.app.data.Tank
 import com.aquatrack.app.databinding.FragmentTankDetailBinding
 import com.aquatrack.app.ui.adapters.FishAdapter
 import com.aquatrack.app.viewmodel.TankViewModel
+import com.aquatrack.app.util.ReminderFrequencyUtils
 import com.google.android.material.snackbar.Snackbar
 
 class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
@@ -116,10 +117,13 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
 
         binding.markCleanedButton.setOnClickListener {
             val tank = currentTank ?: return@setOnClickListener
+            val previousCleanedTime = tank.lastCleanedEpochMillis
             val updated = tank.copy(lastCleanedEpochMillis = System.currentTimeMillis())
             viewModel.saveTank(updated)
             Snackbar.make(binding.root, getString(R.string.cleaned_snackbar), Snackbar.LENGTH_LONG)
-                .setAction(R.string.undo_action) { /* TODO undo cleaned action */ }
+                .setAction(R.string.undo_action) {
+                    viewModel.saveTank(tank.copy(lastCleanedEpochMillis = previousCleanedTime))
+                }
                 .show()
         }
 
@@ -158,7 +162,7 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
     }
 
     private fun getNextCleanLabel(frequency: String): String {
-        parseCustomFrequency(frequency)?.let { (value, unit) ->
+        ReminderFrequencyUtils.parseCustomFrequency(frequency)?.let { (value, unit) ->
             return if (unit.equals("Days", ignoreCase = true)) {
                 getString(R.string.stat_next_custom_days, value)
             } else {
@@ -174,7 +178,7 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
     }
 
     private fun formatReminderFrequencyLabel(frequency: String): String {
-        parseCustomFrequency(frequency)?.let { (value, unit) ->
+        ReminderFrequencyUtils.parseCustomFrequency(frequency)?.let { (value, unit) ->
             return if (unit.equals("Days", ignoreCase = true)) {
                 getString(R.string.reminder_custom_every_days, value)
             } else {
@@ -185,13 +189,6 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
         return frequency
     }
 
-    private fun parseCustomFrequency(frequency: String): Pair<Int, String>? {
-        if (!frequency.startsWith("Custom:", ignoreCase = true)) return null
-        val parts = frequency.split(":")
-        if (parts.size < 3) return null
-        val value = parts[1].toIntOrNull() ?: return null
-        return value to parts[2]
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
