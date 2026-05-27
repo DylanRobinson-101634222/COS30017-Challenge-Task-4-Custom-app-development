@@ -9,6 +9,7 @@
     <dimen name="touch_target_min">48dp</dimen>
     <dimen name="chip_height">32dp</dimen>
     <dimen name="tank_list_header_height">160dp</dimen>
+    <dimen name="tank_list_header_height_extended">216dp</dimen>
     <dimen name="tank_list_header_title_size">32sp</dimen>
     <dimen name="tank_list_searchbar_height">64dp</dimen>
     <dimen name="tank_detail_hero_height">200dp</dimen>

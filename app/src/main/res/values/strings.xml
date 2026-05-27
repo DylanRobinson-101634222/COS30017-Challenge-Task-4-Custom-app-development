@@ -81,6 +81,7 @@
     <string name="stat_today">Today</string>
     <string name="stat_tanks">Tanks</string>
     <string name="stat_reminders_on">Reminders On</string>
+    <string name="stat_count_default">0</string>
     <string name="stat_days">%1$d d</string>
     <string name="stat_next_1_day">+1 day</string>
     <string name="stat_next_7_days">+7 days</string>

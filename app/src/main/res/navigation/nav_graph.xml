@@ -10,10 +10,18 @@
         android:label="@string/tanks">
         <action
             android:id="@+id/action_tankListFragment_to_tankDetailFragment"
-            app:destination="@id/tankDetailFragment" />
+            app:destination="@id/tankDetailFragment"
+            app:enterAnim="@anim/slide_in_right_fast"
+            app:exitAnim="@anim/slide_out_left_fast"
+            app:popEnterAnim="@anim/slide_in_left_fast"
+            app:popExitAnim="@anim/slide_out_right_fast" />
         <action
             android:id="@+id/action_tankListFragment_to_addEditTankFragment"
-            app:destination="@id/addEditTankFragment" />
+            app:destination="@id/addEditTankFragment"
+            app:enterAnim="@anim/slide_in_right_fast"
+            app:exitAnim="@anim/slide_out_left_fast"
+            app:popEnterAnim="@anim/slide_in_left_fast"
+            app:popExitAnim="@anim/slide_out_right_fast" />
     </fragment>
 
     <fragment
@@ -22,10 +30,18 @@
         android:label="@string/tank_detail">
         <action
             android:id="@+id/action_tankDetailFragment_to_addEditTankFragment"
-            app:destination="@id/addEditTankFragment" />
+            app:destination="@id/addEditTankFragment"
+            app:enterAnim="@anim/slide_in_right_fast"
+            app:exitAnim="@anim/slide_out_left_fast"
+            app:popEnterAnim="@anim/slide_in_left_fast"
+            app:popExitAnim="@anim/slide_out_right_fast" />
         <action
             android:id="@+id/action_tankDetailFragment_to_addEditFishFragment"
-            app:destination="@id/addEditFishFragment" />
+            app:destination="@id/addEditFishFragment"
+            app:enterAnim="@anim/slide_in_right_fast"
+            app:exitAnim="@anim/slide_out_left_fast"
+            app:popEnterAnim="@anim/slide_in_left_fast"
+            app:popExitAnim="@anim/slide_out_right_fast" />
     </fragment>
 
     <fragment

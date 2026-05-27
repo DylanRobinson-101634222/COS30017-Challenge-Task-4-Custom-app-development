@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -18,6 +17,7 @@ import com.google.android.material.appbar.MaterialToolbar
 class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var topAppBar: MaterialToolbar
+    private var defaultToolbarColor: Int = 0
     private val notificationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* no-op */ }
 
@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, true)
         setContentView(R.layout.activity_main)
         topAppBar = findViewById(R.id.topAppBar)
+        defaultToolbarColor = ContextCompat.getColor(this, R.color.aquatrack_surface)
         setSupportActionBar(topAppBar)
         ensureNotificationPermissionIfNeeded()
 
@@ -35,8 +36,15 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navHost.navController, appBarConfiguration)
 
         navHost.navController.addOnDestinationChangedListener { _, destination, _ ->
-            topAppBar.visibility = if (destination.id == R.id.tankListFragment) View.GONE else View.VISIBLE
+            applyToolbarStyleForDestination(destination.id)
         }
+    }
+
+    private fun applyToolbarStyleForDestination(destinationId: Int) {
+        val isHome = destinationId == R.id.tankListFragment
+        topAppBar.title = if (isHome) "" else getString(R.string.app_name)
+        topAppBar.setBackgroundColor(if (isHome) android.graphics.Color.TRANSPARENT else defaultToolbarColor)
+        topAppBar.elevation = 0f
     }
 
     override fun onSupportNavigateUp(): Boolean {
