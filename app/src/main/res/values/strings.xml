@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">AquaTrack</string>
     <string name="tanks">Tanks</string>
     <string name="tank">Tank</string>
     <string name="my_tanks">My Tanks</string>
-    <string name="menu">Menu</string>
     <string name="search">Search</string>
-    <string name="search_tanks_hint">Search tanks or fish...</string>
+    <string name="search_tanks_hint">Search tanks or fish…</string>
     <string name="tank_detail">Tank Detail</string>
     <string name="add_tank">Add Tank</string>
     <string name="edit_tank">Edit Tank</string>
-    <string name="tank_list_heading">Your Tanks</string>
-    <string name="tank_list_subheading">Track cleaning, fish stock, and conditions in one place.</string>
     <string name="your_tanks_count_default">Your Tanks  •  0</string>
     <string name="your_tanks_count_template">Your Tanks  •  %1$d</string>
     <string name="add_fish">Add Fish</string>
@@ -24,11 +21,9 @@
     <string name="save_action">Save</string>
     <string name="tank_name">Tank Name</string>
     <string name="tank_image">Tank image</string>
-    <string name="tank_image_url">Tank Image URL (optional)</string>
     <string name="pick_photo">Choose Photo</string>
     <string name="take_photo">Use Camera</string>
     <string name="remove_photo">Remove Photo</string>
-    <string name="image_source_title">Select Image Source</string>
     <string name="volume_litres">Volume (litres)</string>
     <string name="water_type">Water Type</string>
     <string name="temperature_c">Water Temperature (°C)</string>
@@ -37,11 +32,10 @@
     <string name="species_name">Species Name</string>
     <string name="fish_image">Fish image</string>
     <string name="fish_item_more_actions">More fish actions</string>
-    <string name="fish_image_url">Fish Image URL (optional)</string>
     <string name="scientific_name">Scientific Name (optional)</string>
     <string name="quantity">Quantity</string>
-    <string name="min_temp">Min Temp (C)</string>
-    <string name="max_temp">Max Temp (C)</string>
+    <string name="min_temp" tools:ignore="TypographyOther">Min Temp (C)</string>
+    <string name="max_temp" tools:ignore="TypographyOther">Max Temp (C)</string>
     <string name="save_fish">Save Fish</string>
     <string name="update_fish">Update Fish</string>
     <string name="edit_fish">Edit Fish</string>
@@ -51,10 +45,6 @@
     <string name="tank_name_placeholder">Reef Paradise</string>
     <string name="tank_sub_meta_placeholder">Freshwater • 0L • 0.0C</string>
     <string name="tank_sub_meta_template">%1$s • %2$dL • %3$.1fC</string>
-    <string name="fish_count_chip_default">Fish: 0</string>
-    <string name="fish_count_chip_template">Fish: %1$d</string>
-    <string name="last_cleaned_chip_default">Last cleaned: not set</string>
-    <string name="last_cleaned_chip_template">Last cleaned: %1$s</string>
     <string name="reminder_summary_default">Reminder: Weekly • 7:00 pm</string>
     <string name="reminder_summary_template">Reminder: %1$s • %2$s • %3$s</string>
     <string name="reminder_on">Notifications on</string>
@@ -77,7 +67,6 @@
     <string name="tank_name_example">e.g. Living Room Reef</string>
     <string name="tank_volume_example">e.g. 120</string>
     <string name="tank_temp_example">e.g. 25.5</string>
-    <string name="image_url_hint">https://example.com/image.jpg</string>
     <string name="species_name_helper">Use common name first, then optional scientific name.</string>
     <string name="scientific_name_not_set">Scientific name not set</string>
     <string name="no_tanks_yet">No tanks yet. Tap Add Tank to create your first setup.</string>
@@ -110,15 +99,11 @@
     <string name="reminder_custom_every_weeks">Custom every %1$d weeks</string>
     <string name="temp_range">Ideal Temperature Range (°C)</string>
     <string name="fish_temp_tip">Tip: Keep min and max close to your tank target temperature for healthier fish.</string>
-    <string name="tank_meta_template">%1$dL - %2$s</string>
-    <string name="tank_temp_template">Target %1$.1fC</string>
     <string name="tank_stats_template">%1$dL  •  %2$.1f°C</string>
     <string name="fish_meta_template">Qty %1$d - %2$.1fC to %3$.1fC</string>
     <string name="fish_temp_mismatch">Ideal range out of tank target (%1$.1fC)</string>
     <string name="tank_deleted_message">Tank deleted</string>
     <string name="fish_deleted_message">Fish deleted</string>
-    <string name="settings">Settings</string>
-    <string name="about">About</string>
     <string name="error_required">This field is required</string>
     <string name="error_positive_number">Enter a positive number</string>
     <string name="error_temp_range">Check min and max temperature values</string>

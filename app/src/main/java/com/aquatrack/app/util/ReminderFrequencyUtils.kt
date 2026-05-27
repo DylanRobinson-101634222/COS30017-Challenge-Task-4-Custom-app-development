@@ -1,6 +1,5 @@
 package com.aquatrack.app.util
 
-@Suppress("unused")
 object ReminderFrequencyUtils {
     private const val CUSTOM_PREFIX = "Custom:"
     private const val CUSTOM_VALUE_SEPARATOR = ":"
