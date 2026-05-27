@@ -15,6 +15,7 @@ import com.aquatrack.app.R
 import com.aquatrack.app.data.Tank
 import com.aquatrack.app.databinding.FragmentAddEditTankBinding
 import com.aquatrack.app.util.ReminderFrequencyUtils
+import com.aquatrack.app.util.ValidationUtils
 import com.aquatrack.app.viewmodel.TankViewModel
 import java.io.File
 import java.text.SimpleDateFormat
@@ -144,26 +145,26 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
         }
 
         binding.saveTankButton.setOnClickListener {
-            val name = binding.tankNameInput.text?.toString().orEmpty().trim()
-            val volume = binding.volumeInput.text?.toString().orEmpty().toIntOrNull()
-            val temp = binding.temperatureInput.text?.toString().orEmpty().toFloatOrNull()
+            val name = ValidationUtils.parseRequiredText(binding.tankNameInput.text)
+            val volume = ValidationUtils.parsePositiveInt(binding.volumeInput.text)
+            val temp = ValidationUtils.parsePositiveFloat(binding.temperatureInput.text)
 
             var valid = true
-            if (name.isBlank()) {
+            if (name == null) {
                 binding.tankNameLayout.error = getString(R.string.error_required)
                 valid = false
             } else {
                 binding.tankNameLayout.error = null
             }
 
-            if (volume == null || volume <= 0) {
+            if (volume == null) {
                 binding.volumeLayout.error = getString(R.string.error_positive_number)
                 valid = false
             } else {
                 binding.volumeLayout.error = null
             }
 
-            if (temp == null || temp <= 0f) {
+            if (temp == null) {
                 binding.temperatureLayout.error = getString(R.string.error_positive_number)
                 valid = false
             } else {
@@ -171,6 +172,10 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
             }
 
             if (!valid) return@setOnClickListener
+
+            val safeName = name ?: return@setOnClickListener
+            val safeVolume = volume ?: return@setOnClickListener
+            val safeTemp = temp ?: return@setOnClickListener
 
             val selectedWaterType = when (binding.waterTypeToggleGroup.checkedButtonId) {
                 R.id.saltwaterButton -> getString(R.string.water_type_salt)
@@ -180,12 +185,9 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
             val selectedReminderFrequency = when (binding.reminderFrequencyToggleGroup.checkedButtonId) {
                 R.id.reminderDailyButton -> "Daily"
                 R.id.reminderCustomButton -> {
-                    val customValue = binding.customReminderValueInput.text
-                        ?.toString()
-                        .orEmpty()
-                        .toIntOrNull()
+                    val customValue = ValidationUtils.parsePositiveInt(binding.customReminderValueInput.text)
 
-                    if (binding.reminderSwitch.isChecked && (customValue == null || customValue <= 0)) {
+                    if (binding.reminderSwitch.isChecked && customValue == null) {
                         binding.customReminderValueLayout.error = getString(R.string.error_positive_number)
                         return@setOnClickListener
                     }
@@ -197,7 +199,10 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
                     } else {
                         "Weeks"
                     }
-                    "Custom:${customValue ?: 2}:$unit"
+                    ReminderFrequencyUtils.buildCustomFrequency(
+                        value = customValue ?: ReminderFrequencyUtils.DEFAULT_CUSTOM_VALUE,
+                        unit = unit
+                    )
                 }
 
                 else -> "Weekly"
@@ -208,10 +213,10 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
             val existing = editingTank
             val tank = Tank(
                 id = existing?.id ?: 0,
-                name = name,
-                volumeLitres = volume!!,
+                name = safeName,
+                volumeLitres = safeVolume,
                 waterType = selectedWaterType,
-                targetTempC = temp!!,
+                targetTempC = safeTemp,
                 lastCleanedEpochMillis = existing?.lastCleanedEpochMillis ?: System.currentTimeMillis(),
                 reminderEnabled = binding.reminderSwitch.isChecked,
                 reminderFrequency = selectedReminderFrequency,

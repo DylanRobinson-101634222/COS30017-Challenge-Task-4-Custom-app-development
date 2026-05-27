@@ -2,18 +2,23 @@ package com.aquatrack.app.util
 
 object ReminderFrequencyUtils {
     private const val CUSTOM_PREFIX = "Custom:"
-    private const val CUSTOM_VALUE_SEPARATOR = ":"
     private const val CUSTOM_LABEL = "Custom"
+    const val UNIT_DAYS = "Days"
+    const val UNIT_WEEKS = "Weeks"
+    const val DEFAULT_CUSTOM_VALUE = 2
+    private val customFrequencyRegex = Regex("^Custom:(\\d+):(Days|Weeks)$", RegexOption.IGNORE_CASE)
 
     fun parseCustomFrequency(frequency: String): Pair<Int, String>? {
-        if (!frequency.startsWith(CUSTOM_PREFIX, ignoreCase = true)) return null
-
-        val parts = frequency.split(CUSTOM_VALUE_SEPARATOR)
-        if (parts.size < 3) return null
-
-        val value = parts[1].toIntOrNull() ?: return null
-        val unit = parts[2]
+        val match = customFrequencyRegex.matchEntire(frequency.trim()) ?: return null
+        val value = match.groupValues[1].toIntOrNull() ?: return null
+        if (value <= 0) return null
+        val unit = normaliseUnit(match.groupValues[2])
         return value to unit
+    }
+
+    fun buildCustomFrequency(value: Int, unit: String): String {
+        val safeValue = value.coerceAtLeast(1)
+        return "$CUSTOM_PREFIX$safeValue:${normaliseUnit(unit)}"
     }
 
     fun resolveSavedFrequency(initialFrequency: String, selectedFrequency: String): String {
@@ -23,6 +28,10 @@ object ReminderFrequencyUtils {
             return initialFrequency
         }
         return selectedFrequency
+    }
+
+    private fun normaliseUnit(unit: String): String {
+        return if (unit.equals(UNIT_WEEKS, ignoreCase = true)) UNIT_WEEKS else UNIT_DAYS
     }
 }
 

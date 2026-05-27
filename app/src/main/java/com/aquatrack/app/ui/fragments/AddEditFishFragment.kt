@@ -14,6 +14,7 @@ import coil.load
 import com.aquatrack.app.R
 import com.aquatrack.app.data.Fish
 import com.aquatrack.app.databinding.FragmentAddEditFishBinding
+import com.aquatrack.app.util.ValidationUtils
 import com.aquatrack.app.viewmodel.TankViewModel
 import java.io.File
 import java.text.SimpleDateFormat
@@ -105,28 +106,28 @@ class AddEditFishFragment : Fragment(R.layout.fragment_add_edit_fish) {
         }
 
         binding.saveFishButton.setOnClickListener {
-            val species = binding.speciesInput.text?.toString().orEmpty().trim()
-            val qty = binding.quantityInput.text?.toString().orEmpty().toIntOrNull()
-            val minTemp = binding.minTempInput.text?.toString().orEmpty().toFloatOrNull()
-            val maxTemp = binding.maxTempInput.text?.toString().orEmpty().toFloatOrNull()
+            val species = ValidationUtils.parseRequiredText(binding.speciesInput.text)
+            val qty = ValidationUtils.parsePositiveInt(binding.quantityInput.text)
+            val minTemp = ValidationUtils.parsePositiveFloat(binding.minTempInput.text)
+            val maxTemp = ValidationUtils.parsePositiveFloat(binding.maxTempInput.text)
 
             var valid = true
 
-            if (species.isBlank()) {
+            if (species == null) {
                 binding.speciesLayout.error = getString(R.string.error_required)
                 valid = false
             } else {
                 binding.speciesLayout.error = null
             }
 
-            if (qty == null || qty <= 0) {
+            if (qty == null) {
                 binding.quantityLayout.error = getString(R.string.error_positive_number)
                 valid = false
             } else {
                 binding.quantityLayout.error = null
             }
 
-            if (minTemp == null || maxTemp == null || minTemp > maxTemp) {
+            if (!ValidationUtils.isTemperatureRangeValid(minTemp, maxTemp)) {
                 binding.minTempLayout.error = getString(R.string.error_temp_range)
                 binding.maxTempLayout.error = getString(R.string.error_temp_range)
                 valid = false
@@ -137,15 +138,20 @@ class AddEditFishFragment : Fragment(R.layout.fragment_add_edit_fish) {
 
             if (!valid) return@setOnClickListener
 
+            val safeSpecies = species ?: return@setOnClickListener
+            val safeQty = qty ?: return@setOnClickListener
+            val safeMinTemp = minTemp ?: return@setOnClickListener
+            val safeMaxTemp = maxTemp ?: return@setOnClickListener
+
             viewModel.saveFish(
                 Fish(
                     id = editingFish?.id ?: 0,
                     tankId = editingFish?.tankId ?: tankId,
-                    speciesName = species,
+                    speciesName = safeSpecies,
                     scientificName = binding.scientificInput.text?.toString().orEmpty(),
-                    quantity = qty!!,
-                    minTempC = minTemp!!,
-                    maxTempC = maxTemp!!,
+                    quantity = safeQty,
+                    minTempC = safeMinTemp,
+                    maxTempC = safeMaxTemp,
                     imageUri = selectedImageUri.trim()
                 )
             )
