@@ -44,6 +44,7 @@ class ReminderDialogFragment : DialogFragment() {
         }
 
         binding.pickTimeButton.setOnClickListener {
+            // A 24-hour picker keeps the reminder time clear and easy to read.
             val picker = MaterialTimePicker.Builder()
                 .setTitleText(R.string.reminder_time_label)
                 .setTimeFormat(TimeFormat.CLOCK_24H)
@@ -65,6 +66,7 @@ class ReminderDialogFragment : DialogFragment() {
             .setView(binding.root)
             .setNegativeButton(R.string.cancel_action, null)
             .setPositiveButton(R.string.save_action) { _, _ ->
+                // Keep the saved custom frequency if the user only changes the time.
                 val frequencyToSave = ReminderFrequencyUtils.resolveSavedFrequency(
                     initialFrequency = initialFrequency,
                     selectedFrequency = selectedFrequency
@@ -80,6 +82,7 @@ class ReminderDialogFragment : DialogFragment() {
     }
 
     private fun updateSelectedFrequency(value: String) {
+        // Treat a saved custom value as custom, even when it already has the number inside it.
         val checked = when (value) {
             "Daily" -> R.id.frequencyDailyButton
             "Custom" -> R.id.frequencyCustomButton

@@ -58,6 +58,7 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
         binding.reminderFrequencyToggleGroup.check(R.id.reminderWeeklyButton)
         binding.customReminderUnitToggleGroup.check(R.id.customReminderWeeksButton)
 
+        // In edit mode, fill the form so the user can change only what they need.
         fun syncReminderFrequencyVisibility(enabled: Boolean) {
             binding.reminderFrequencyLabel.visibility = if (enabled) View.VISIBLE else View.GONE
             binding.reminderFrequencyToggleGroup.visibility = if (enabled) View.VISIBLE else View.GONE
@@ -133,6 +134,7 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
         }
 
         binding.reminderSwitch.setOnCheckedChangeListener { _, isChecked ->
+            // Hide the reminder fields when the switch is off to keep the form simple.
             syncReminderFrequencyVisibility(isChecked)
         }
 
@@ -189,6 +191,7 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
                     }
 
                     binding.customReminderValueLayout.error = null
+                    // Store custom reminders in one string so the detail screen and scheduler can read it later.
                     val unit = if (binding.customReminderUnitToggleGroup.checkedButtonId == R.id.customReminderDaysButton) {
                         "Days"
                     } else {

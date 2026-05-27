@@ -117,6 +117,7 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
 
         binding.markCleanedButton.setOnClickListener {
             val tank = currentTank ?: return@setOnClickListener
+            // Keep the old clean date so Undo can put it back if the user changes their mind.
             val previousCleanedTime = tank.lastCleanedEpochMillis
             val updated = tank.copy(lastCleanedEpochMillis = System.currentTimeMillis())
             viewModel.saveTank(updated)
@@ -140,6 +141,7 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
 
         setFragmentResultListener(ReminderDialogFragment.RESULT_KEY) { _, bundle ->
             val tank = currentTank ?: return@setFragmentResultListener
+            // The dialog sends the chosen reminder values back here for saving.
             val frequency = bundle.getString(ReminderDialogFragment.BUNDLE_FREQUENCY, tank.reminderFrequency)
             val time = bundle.getString(ReminderDialogFragment.BUNDLE_TIME, tank.reminderTime)
             val enabled = bundle.getBoolean(ReminderDialogFragment.BUNDLE_ENABLED, tank.reminderEnabled)

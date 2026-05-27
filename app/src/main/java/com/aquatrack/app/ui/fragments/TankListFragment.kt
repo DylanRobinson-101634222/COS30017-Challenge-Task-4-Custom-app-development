@@ -50,6 +50,7 @@ class TankListFragment : Fragment(R.layout.fragment_tank_list) {
         binding.tankRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.tankRecyclerView.adapter = adapter
 
+        // Keep the home stats and filtered list in sync with the same live data.
         viewModel.tanks.observe(viewLifecycleOwner) { tanks ->
             allTanks = tanks
             applySearch(adapter)
@@ -82,6 +83,7 @@ class TankListFragment : Fragment(R.layout.fragment_tank_list) {
         binding.homeFishCountStatText.text = allFish.sumOf { it.quantity }.toString()
         binding.homeReminderCountStatText.text = allTanks.count { it.reminderEnabled }.toString()
 
+        // Match tanks by tank details or by fish names, since both are useful search terms.
         val fishCountsByTankId = allFish
             .groupBy { it.tankId }
             .mapValues { (_, fishInTank) -> fishInTank.sumOf { it.quantity } }
