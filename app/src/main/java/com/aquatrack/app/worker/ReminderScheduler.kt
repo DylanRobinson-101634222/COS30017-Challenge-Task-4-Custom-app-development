@@ -6,6 +6,7 @@ import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.aquatrack.app.data.Tank
+import com.aquatrack.app.util.ReminderFrequencyUtils
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -52,7 +53,7 @@ object ReminderScheduler {
     private fun uniqueNameForTank(tankId: Long): String = "tank_cleaning_reminder_$tankId"
 
     private fun intervalDaysForFrequency(frequency: String): Long {
-        parseCustomFrequency(frequency)?.let { (value, unit) ->
+        ReminderFrequencyUtils.parseCustomFrequency(frequency)?.let { (value, unit) ->
             val days = if (unit.equals("Weeks", ignoreCase = true)) value * 7L else value.toLong()
             return max(days, 1L)
         }
@@ -63,13 +64,6 @@ object ReminderScheduler {
         }
     }
 
-    private fun parseCustomFrequency(frequency: String): Pair<Int, String>? {
-        if (!frequency.startsWith("Custom:", ignoreCase = true)) return null
-        val parts = frequency.split(":")
-        if (parts.size < 3) return null
-        val value = parts[1].toIntOrNull() ?: return null
-        return value to parts[2]
-    }
 
     private fun minutesUntilNextReminder(reminderTime: String): Long {
         val now = LocalDateTime.now()

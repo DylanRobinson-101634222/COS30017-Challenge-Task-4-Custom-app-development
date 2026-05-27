@@ -2,13 +2,14 @@ package com.aquatrack.app.ui.fragments
 
 import android.app.Dialog
 import android.os.Bundle
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import com.aquatrack.app.R
 import com.aquatrack.app.databinding.DialogReminderBinding
+import com.aquatrack.app.util.ReminderFrequencyUtils
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import java.util.Locale
 
 class ReminderDialogFragment : DialogFragment() {
     private var _binding: DialogReminderBinding? = null
@@ -64,14 +65,16 @@ class ReminderDialogFragment : DialogFragment() {
             .setView(binding.root)
             .setNegativeButton(R.string.cancel_action, null)
             .setPositiveButton(R.string.save_action) { _, _ ->
-                parentFragmentManager.setFragmentResult(
-                    RESULT_KEY,
-                    bundleOf(
-                        BUNDLE_FREQUENCY to selectedFrequency,
-                        BUNDLE_TIME to String.format("%02d:%02d", selectedHour, selectedMinute),
-                        BUNDLE_ENABLED to binding.notificationsSwitch.isChecked
-                    )
+                val frequencyToSave = ReminderFrequencyUtils.resolveSavedFrequency(
+                    initialFrequency = initialFrequency,
+                    selectedFrequency = selectedFrequency
                 )
+                val result = Bundle().apply {
+                    putString(BUNDLE_FREQUENCY, frequencyToSave)
+                    putString(BUNDLE_TIME, String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute))
+                    putBoolean(BUNDLE_ENABLED, binding.notificationsSwitch.isChecked)
+                }
+                parentFragmentManager.setFragmentResult(RESULT_KEY, result)
             }
             .create()
     }
@@ -92,7 +95,7 @@ class ReminderDialogFragment : DialogFragment() {
     private fun updateTimeButtonText() {
         binding.pickTimeButton.text = getString(
             R.string.reminder_time_value,
-            String.format("%02d:%02d", selectedHour, selectedMinute)
+            String.format(Locale.getDefault(), "%02d:%02d", selectedHour, selectedMinute)
         )
     }
 
@@ -113,11 +116,11 @@ class ReminderDialogFragment : DialogFragment() {
 
         fun newInstance(frequency: String, time: String, enabled: Boolean): ReminderDialogFragment {
             return ReminderDialogFragment().apply {
-                arguments = bundleOf(
-                    ARG_FREQUENCY to frequency,
-                    ARG_TIME to time,
-                    ARG_ENABLED to enabled
-                )
+                arguments = Bundle().apply {
+                    putString(ARG_FREQUENCY, frequency)
+                    putString(ARG_TIME, time)
+                    putBoolean(ARG_ENABLED, enabled)
+                }
             }
         }
     }

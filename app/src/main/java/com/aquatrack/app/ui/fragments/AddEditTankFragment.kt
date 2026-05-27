@@ -14,6 +14,7 @@ import coil.load
 import com.aquatrack.app.R
 import com.aquatrack.app.data.Tank
 import com.aquatrack.app.databinding.FragmentAddEditTankBinding
+import com.aquatrack.app.util.ReminderFrequencyUtils
 import com.aquatrack.app.viewmodel.TankViewModel
 import java.io.File
 import java.text.SimpleDateFormat
@@ -65,15 +66,6 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
             binding.customReminderIntervalRow.visibility = if (showCustom) View.VISIBLE else View.GONE
         }
 
-        fun parseCustomFrequency(frequency: String): Pair<Int, Boolean>? {
-            if (!frequency.startsWith("Custom:", ignoreCase = true)) return null
-            val parts = frequency.split(":")
-            if (parts.size < 3) return null
-            val value = parts[1].toIntOrNull() ?: return null
-            val isWeeks = parts[2].equals("Weeks", ignoreCase = true)
-            return value to isWeeks
-        }
-
         if (tankId > 0L) {
             viewLifecycleOwner.lifecycleScope.launch {
                 val existing = viewModel.getTankById(tankId) ?: return@launch
@@ -101,11 +93,11 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
                     else -> binding.reminderFrequencyToggleGroup.check(R.id.reminderWeeklyButton)
                 }
 
-                parseCustomFrequency(existing.reminderFrequency)?.let { (value, isWeeks) ->
+                ReminderFrequencyUtils.parseCustomFrequency(existing.reminderFrequency)?.let { (value, unit) ->
                     binding.reminderFrequencyToggleGroup.check(R.id.reminderCustomButton)
                     binding.customReminderValueInput.setText(value.toString())
                     binding.customReminderUnitToggleGroup.check(
-                        if (isWeeks) R.id.customReminderWeeksButton else R.id.customReminderDaysButton
+                        if (unit.equals("Weeks", ignoreCase = true)) R.id.customReminderWeeksButton else R.id.customReminderDaysButton
                     )
                 }
 
