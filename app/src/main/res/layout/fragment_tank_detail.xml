@@ -247,6 +247,42 @@
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
+    <!-- Overdue cleaning warning — shown when the tank's cleaning schedule is past due -->
+    <LinearLayout
+        android:id="@+id/overdueWarningBanner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/aquatrack_warning_container"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="20dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="20dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/statsRow">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/overdue_icon"
+            android:textColor="@color/aquatrack_warning"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/overdueWarningText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/tank_overdue_banner"
+            android:textColor="@color/aquatrack_warning"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/fishSectionTitle"
         android:layout_width="0dp"
@@ -260,7 +296,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/statsRow" />
+        app:layout_constraintTop_toBottomOf="@id/overdueWarningBanner" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/fishRecyclerView"

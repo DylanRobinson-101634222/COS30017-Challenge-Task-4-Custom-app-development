@@ -2,6 +2,7 @@ package com.aquatrack.app.ui.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.fragment.app.setFragmentResultListener
@@ -59,6 +60,7 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
                 binding.cleanedStatText.text = getString(R.string.stat_today)
                 binding.nextCleanStatText.text = getString(R.string.stat_next_clean_default)
                 binding.reminderButton.text = getString(R.string.reminder_summary_default)
+                binding.overdueWarningBanner.visibility = View.GONE
                 fishAdapter.setTankTargetTemp(null)
                 binding.tankHeaderImageView.visibility = View.GONE
                 binding.tankHeaderOverlay.visibility = View.GONE
@@ -95,6 +97,16 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
                 tank.reminderTime,
                 if (tank.reminderEnabled) getString(R.string.reminder_on) else getString(R.string.reminder_off)
             )
+
+            // Overdue indicator — show banner and tint the "Cleaned" stat red when due.
+            val overdue = ReminderFrequencyUtils.isCleaningDue(tank)
+            binding.overdueWarningBanner.visibility = if (overdue) View.VISIBLE else View.GONE
+            val cleanedColor = if (overdue) {
+                ContextCompat.getColor(requireContext(), R.color.aquatrack_warning)
+            } else {
+                ContextCompat.getColor(requireContext(), R.color.aquatrack_primary)
+            }
+            binding.cleanedStatText.setTextColor(cleanedColor)
         }
 
         viewModel.fishForTank(tankId).observe(viewLifecycleOwner) { fish ->

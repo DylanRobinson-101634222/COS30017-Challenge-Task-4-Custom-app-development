@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.aquatrack.app.R
 import com.aquatrack.app.data.Tank
+import com.aquatrack.app.util.ReminderFrequencyUtils
 import java.util.concurrent.TimeUnit
 
 class TankAdapter(
@@ -69,6 +71,7 @@ class TankAdapter(
         private val subtitle: TextView = root.findViewById(R.id.tankMetaText)
         private val temp: TextView = root.findViewById(R.id.tankTempText)
         private val cleaned: TextView = root.findViewById(R.id.tankCleanedText)
+        private val overdueBadge: TextView = root.findViewById(R.id.tankOverdueBadge)
         private val fishCount: TextView = root.findViewById(R.id.tankFishCountText)
         private val tankImage: ImageView = root.findViewById(R.id.tankImageView)
 
@@ -99,6 +102,16 @@ class TankAdapter(
                 daysAgo.toInt(),
                 daysAgo
             )
+
+            // Show the overdue badge and tint the cleaned text when cleaning is due.
+            val overdue = ReminderFrequencyUtils.isCleaningDue(tank)
+            overdueBadge.visibility = if (overdue) View.VISIBLE else View.GONE
+            val cleanedColor = if (overdue) {
+                ContextCompat.getColor(root.context, R.color.aquatrack_warning)
+            } else {
+                ContextCompat.getColor(root.context, R.color.aquatrack_card_muted)
+            }
+            cleaned.setTextColor(cleanedColor)
         }
     }
 

@@ -97,7 +97,11 @@
     <string name="reminder_channel_name">Cleaning reminders</string>
     <string name="reminder_channel_description">AquaTrack alerts when tank cleaning is due</string>
     <string name="reminder_notification_title">%1$s needs cleaning</string>
-    <string name="reminder_notification_body">Open AquaTrack to mark it cleaned or adjust schedule.</string>
+    <string name="reminder_notification_body">Tap \'Mark as Cleaned\' below, or open the app to view details.</string>
+    <string name="notification_action_mark_cleaned">Mark as Cleaned</string>
+    <string name="tank_overdue_label">Needs cleaning</string>
+    <string name="tank_overdue_banner">Cleaning overdue - tap Mark Cleaned when done</string>
+    <string name="overdue_icon">⚠</string>
     <string name="reminder_custom_every_days">Custom every %1$d days</string>
     <string name="reminder_custom_every_weeks">Custom every %1$d weeks</string>
     <string name="temp_range">Ideal Temperature Range (°C)</string>

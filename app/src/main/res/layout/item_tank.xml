@@ -66,6 +66,25 @@
             app:layout_constraintStart_toStartOf="@id/tankNameText"
             app:layout_constraintTop_toBottomOf="@id/tankTempText" />
 
+        <!-- Shown only when cleaning is overdue -->
+        <TextView
+            android:id="@+id/tankOverdueBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_overdue_chip"
+            android:paddingStart="7dp"
+            android:paddingTop="2dp"
+            android:paddingEnd="7dp"
+            android:paddingBottom="2dp"
+            android:text="@string/tank_overdue_label"
+            android:textColor="@color/aquatrack_warning"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/tankNameText"
+            app:layout_constraintTop_toBottomOf="@id/tankCleanedText" />
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/tankImageView"
             android:layout_width="80dp"

@@ -1,5 +1,9 @@
 package com.aquatrack.app.util
 
+import com.aquatrack.app.data.Tank
+import java.util.concurrent.TimeUnit
+import kotlin.math.max
+
 object ReminderFrequencyUtils {
     private const val CUSTOM_PREFIX = "Custom:"
     private const val CUSTOM_LABEL = "Custom"
@@ -32,6 +36,33 @@ object ReminderFrequencyUtils {
 
     private fun normaliseUnit(unit: String): String {
         return if (unit.equals(UNIT_WEEKS, ignoreCase = true)) UNIT_WEEKS else UNIT_DAYS
+    }
+
+    /**
+     * Returns the interval in whole days for the given [frequency] string.
+     * Mirrors the logic in ReminderScheduler so it can be reused for UI "overdue" checks.
+     */
+    fun intervalDaysForFrequency(frequency: String): Long {
+        parseCustomFrequency(frequency)?.let { (value, unit) ->
+            val days = if (unit.equals(UNIT_WEEKS, ignoreCase = true)) value * 7L else value.toLong()
+            return max(days, 1L)
+        }
+        return when (frequency) {
+            "Daily" -> 1L
+            else -> 7L
+        }
+    }
+
+    /**
+     * Returns true when a tank's reminder is enabled and more days have passed since
+     * [Tank.lastCleanedEpochMillis] than the tank's cleaning interval.
+     */
+    fun isCleaningDue(tank: Tank): Boolean {
+        if (!tank.reminderEnabled) return false
+        val daysSinceCleaned = TimeUnit.MILLISECONDS.toDays(
+            System.currentTimeMillis() - tank.lastCleanedEpochMillis
+        ).coerceAtLeast(0)
+        return daysSinceCleaned >= intervalDaysForFrequency(tank.reminderFrequency)
     }
 }
 
