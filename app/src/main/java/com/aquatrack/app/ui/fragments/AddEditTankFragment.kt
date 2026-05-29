@@ -60,13 +60,6 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
         binding.customReminderUnitToggleGroup.check(R.id.customReminderWeeksButton)
 
         // In edit mode, fill the form so the user can change only what they need.
-        fun syncReminderFrequencyVisibility(enabled: Boolean) {
-            binding.reminderFrequencyLabel.visibility = if (enabled) View.VISIBLE else View.GONE
-            binding.reminderFrequencyToggleGroup.visibility = if (enabled) View.VISIBLE else View.GONE
-            val showCustom =
-                enabled && binding.reminderFrequencyToggleGroup.checkedButtonId == R.id.reminderCustomButton
-            binding.customReminderIntervalRow.visibility = if (showCustom) View.VISIBLE else View.GONE
-        }
 
         if (tankId > 0L) {
             viewLifecycleOwner.lifecycleScope.launch {
@@ -236,6 +229,15 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // Show or hide the frequency and custom interval rows based on whether reminders are on.
+    private fun syncReminderFrequencyVisibility(enabled: Boolean) {
+        binding.reminderFrequencyLabel.visibility = if (enabled) View.VISIBLE else View.GONE
+        binding.reminderFrequencyToggleGroup.visibility = if (enabled) View.VISIBLE else View.GONE
+        val showCustom =
+            enabled && binding.reminderFrequencyToggleGroup.checkedButtonId == R.id.reminderCustomButton
+        binding.customReminderIntervalRow.visibility = if (showCustom) View.VISIBLE else View.GONE
     }
 
     private fun applyTankImageUri(value: String) {

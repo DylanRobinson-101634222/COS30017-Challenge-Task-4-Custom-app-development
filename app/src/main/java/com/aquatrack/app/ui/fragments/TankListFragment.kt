@@ -94,7 +94,6 @@ class TankListFragment : Fragment(R.layout.fragment_tank_list) {
             allTanks
         } else {
             val matchingFishTankIds = allFish
-                .asSequence()
                 .filter {
                     it.speciesName.contains(query, ignoreCase = true) ||
                         it.scientificName.contains(query, ignoreCase = true)
