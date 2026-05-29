@@ -7,6 +7,5 @@
     <dimen name="tank_detail_button_bottom_margin">22dp</dimen>
     <dimen name="form_top_bar_height">76dp</dimen>
     <dimen name="form_section_top_padding">2dp</dimen>
-    <dimen name="form_bottom_spacer">28dp</dimen>
     <dimen name="form_bottom_action_clearance">88dp</dimen>
 </resources>

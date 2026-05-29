@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="screen_horizontal_margin">20dp</dimen>
-    <dimen name="screen_vertical_margin">16dp</dimen>
     <dimen name="content_spacing_small">8dp</dimen>
     <dimen name="content_spacing_medium">12dp</dimen>
     <dimen name="content_spacing_large">20dp</dimen>
     <dimen name="bottom_button_space">16dp</dimen>
-    <dimen name="touch_target_min">48dp</dimen>
-    <dimen name="chip_height">32dp</dimen>
     <dimen name="tank_list_header_height">160dp</dimen>
     <dimen name="tank_list_header_title_size">32sp</dimen>
     <dimen name="tank_list_searchbar_height">64dp</dimen>
@@ -15,7 +11,6 @@
     <dimen name="tank_detail_button_bottom_margin">64dp</dimen>
     <dimen name="form_top_bar_height">100dp</dimen>
     <dimen name="form_section_top_padding">6dp</dimen>
-    <dimen name="form_bottom_spacer">72dp</dimen>
     <dimen name="form_bottom_action_clearance">112dp</dimen>
 </resources>
 

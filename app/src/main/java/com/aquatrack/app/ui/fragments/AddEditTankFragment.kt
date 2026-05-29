@@ -130,6 +130,10 @@ class AddEditTankFragment : Fragment(R.layout.fragment_add_edit_tank) {
             updateTankImagePreview("")
         }
 
+        binding.tankFormBackButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         binding.cancelTankButton.setOnClickListener {
             findNavController().navigateUp()
         }

@@ -47,6 +47,10 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
         binding.fishRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.fishRecyclerView.adapter = fishAdapter
 
+        binding.backTankDetailButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         viewModel.tankById(tankId).observe(viewLifecycleOwner) { tank ->
             currentTank = tank
             if (tank == null) {

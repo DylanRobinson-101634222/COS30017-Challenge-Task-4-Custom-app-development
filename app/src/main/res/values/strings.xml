@@ -17,6 +17,7 @@
     <string name="undo_action">Undo</string>
     <string name="action_edit">Edit</string>
     <string name="action_delete">Delete</string>
+    <string name="action_back">Go back</string>
     <string name="cancel_action">Cancel</string>
     <string name="save_action">Save</string>
     <string name="tank_name">Tank Name</string>
@@ -58,6 +59,7 @@
     <string name="frequency_daily">Daily</string>
     <string name="frequency_weekly">Weekly</string>
     <string name="frequency_custom">Custom</string>
+    <string name="default_custom_reminder_value">2</string>
     <string name="unit_days">Days</string>
     <string name="unit_weeks">Weeks</string>
     <string name="reminder_saved_message">Reminder settings saved</string>

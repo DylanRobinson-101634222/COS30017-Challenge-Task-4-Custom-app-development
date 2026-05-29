@@ -45,6 +45,12 @@
             android:alpha="0.25"
             android:background="@drawable/bg_wave_layer" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="88dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bg_header_bottom_inset_shadow" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -95,12 +101,25 @@
 
         </LinearLayout>
 
+        <ImageButton
+            android:id="@+id/backTankDetailButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|start"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/bg_back_button_scrim"
+            android:contentDescription="@string/action_back"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back_24"
+            app:tint="#FFFFFF" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/editTankButton"
             android:layout_width="72dp"
             android:layout_height="48dp"
             android:layout_gravity="top|end"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="16dp"
             android:text="@string/action_edit"
             android:textAllCaps="false"

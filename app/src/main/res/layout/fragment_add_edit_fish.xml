@@ -30,10 +30,15 @@
             android:paddingStart="16dp"
             android:paddingEnd="20dp">
 
-            <View
-                android:layout_width="22dp"
-                android:layout_height="4dp"
-                android:background="@color/aquatrack_on_surface" />
+            <ImageButton
+                android:id="@+id/fishFormBackButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_back_button_scrim"
+                android:contentDescription="@string/action_back"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back_24"
+                app:tint="#FFFFFF" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

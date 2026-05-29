@@ -101,6 +101,10 @@ class AddEditFishFragment : Fragment(R.layout.fragment_add_edit_fish) {
             updateFishImagePreview("")
         }
 
+        binding.fishFormBackButton.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         binding.cancelFishButton.setOnClickListener {
             findNavController().navigateUp()
         }
