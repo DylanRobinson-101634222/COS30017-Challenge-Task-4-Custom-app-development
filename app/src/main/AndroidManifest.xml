@@ -29,6 +29,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Handles the "Mark as Cleaned" action tapped directly in a reminder notification. -->
+        <receiver
+            android:name=".worker.MarkCleanedReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.aquatrack.app.ACTION_MARK_CLEANED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
