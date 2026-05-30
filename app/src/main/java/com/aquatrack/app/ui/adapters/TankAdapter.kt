@@ -25,7 +25,7 @@ class TankAdapter(
 
     fun setFishCounts(countsByTankId: Map<Long, Int>) {
         fishCountsByTankId = countsByTankId
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, itemCount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TankViewHolder {
@@ -97,14 +97,15 @@ class TankAdapter(
 
             val elapsedMillis = System.currentTimeMillis() - tank.lastCleanedEpochMillis
             val daysAgo = TimeUnit.MILLISECONDS.toDays(elapsedMillis).coerceAtLeast(0)
+
+            val overdue = ReminderFrequencyUtils.isCleaningDue(tank)
+            // Always show the last-cleaned date; the overdue badge already signals the due state.
             cleaned.text = root.context.resources.getQuantityString(
                 R.plurals.cleaned_days_ago,
                 daysAgo.toInt(),
                 daysAgo
             )
 
-            // Show the overdue badge and tint the cleaned text when cleaning is due.
-            val overdue = ReminderFrequencyUtils.isCleaningDue(tank)
             overdueBadge.visibility = if (overdue) View.VISIBLE else View.GONE
             val cleanedColor = if (overdue) {
                 ContextCompat.getColor(root.context, R.color.aquatrack_warning)

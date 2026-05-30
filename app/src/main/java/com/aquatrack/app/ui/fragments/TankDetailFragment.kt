@@ -89,6 +89,9 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
                 tank.volumeLitres,
                 tank.targetTempC
             )
+            val overdue = ReminderFrequencyUtils.isCleaningDue(tank)
+            // Always show the last-cleaned date in the stat chip; the warning banner already
+            // communicates the overdue state so we avoid showing "Needs cleaning / cleaned".
             binding.cleanedStatText.text = getCleanedStatLabel(tank.lastCleanedEpochMillis)
             binding.nextCleanStatText.text = getNextCleanLabel(tank.reminderFrequency)
             binding.reminderButton.text = getString(
@@ -99,7 +102,6 @@ class TankDetailFragment : Fragment(R.layout.fragment_tank_detail) {
             )
 
             // Overdue indicator — show banner and tint the "Cleaned" stat red when due.
-            val overdue = ReminderFrequencyUtils.isCleaningDue(tank)
             binding.overdueWarningBanner.visibility = if (overdue) View.VISIBLE else View.GONE
             val cleanedColor = if (overdue) {
                 ContextCompat.getColor(requireContext(), R.color.aquatrack_warning)

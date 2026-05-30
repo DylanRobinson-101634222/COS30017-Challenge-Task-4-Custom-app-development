@@ -1,7 +1,10 @@
 package com.aquatrack.app.util
 
 import com.aquatrack.app.data.Tank
-import java.util.concurrent.TimeUnit
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.LocalTime
+import java.time.ZoneId
 import kotlin.math.max
 
 object ReminderFrequencyUtils {
@@ -34,13 +37,8 @@ object ReminderFrequencyUtils {
         return selectedFrequency
     }
 
-    private fun normaliseUnit(unit: String): String {
-        return if (unit.equals(UNIT_WEEKS, ignoreCase = true)) UNIT_WEEKS else UNIT_DAYS
-    }
-
     /**
      * Returns the interval in whole days for the given [frequency] string.
-     * Mirrors the logic in ReminderScheduler so it can be reused for UI "overdue" checks.
      */
     fun intervalDaysForFrequency(frequency: String): Long {
         parseCustomFrequency(frequency)?.let { (value, unit) ->
@@ -54,16 +52,59 @@ object ReminderFrequencyUtils {
     }
 
     /**
-     * Returns true when a tank's reminder is enabled and more days have passed since
-     * [Tank.lastCleanedEpochMillis] than the tank's cleaning interval.
+     * Calculates when the next clean becomes due based on last cleaned date,
+     * selected frequency, and the configured reminder time.
      */
-    fun isCleaningDue(tank: Tank): Boolean {
+    fun nextDueDateTime(tank: Tank, now: LocalDateTime = LocalDateTime.now()): LocalDateTime {
+        return nextDueDateTime(
+            lastCleanedEpochMillis = tank.lastCleanedEpochMillis,
+            frequency = tank.reminderFrequency,
+            reminderTime = tank.reminderTime,
+            now = now
+        )
+    }
+
+    fun nextDueDateTime(
+        lastCleanedEpochMillis: Long,
+        frequency: String,
+        reminderTime: String,
+        now: LocalDateTime = LocalDateTime.now()
+    ): LocalDateTime {
+        val intervalDays = intervalDaysForFrequency(frequency)
+        val targetTime = parseReminderTime(reminderTime)
+        val zone = ZoneId.systemDefault()
+        val lastCleanedDate = Instant.ofEpochMilli(lastCleanedEpochMillis)
+            .atZone(zone)
+            .toLocalDate()
+
+        var nextDue = lastCleanedDate.plusDays(intervalDays).atTime(targetTime)
+        while (!nextDue.isAfter(now)) {
+            nextDue = nextDue.plusDays(intervalDays)
+        }
+        return nextDue
+    }
+
+    /**
+     * Returns true when reminders are enabled and the tank has reached/passed
+     * the scheduled due time for cleaning.
+     */
+    fun isCleaningDue(tank: Tank, now: LocalDateTime = LocalDateTime.now()): Boolean {
         if (!tank.reminderEnabled) return false
-        val daysSinceCleaned = TimeUnit.MILLISECONDS.toDays(
-            System.currentTimeMillis() - tank.lastCleanedEpochMillis
-        ).coerceAtLeast(0)
-        return daysSinceCleaned >= intervalDaysForFrequency(tank.reminderFrequency)
+        val intervalDays = intervalDaysForFrequency(tank.reminderFrequency)
+        val targetTime = parseReminderTime(tank.reminderTime)
+        val zone = ZoneId.systemDefault()
+        val lastCleanedDate = Instant.ofEpochMilli(tank.lastCleanedEpochMillis)
+            .atZone(zone)
+            .toLocalDate()
+        val dueAt = lastCleanedDate.plusDays(intervalDays).atTime(targetTime)
+        return !now.isBefore(dueAt)
+    }
+
+    private fun parseReminderTime(reminderTime: String): LocalTime {
+        return runCatching { LocalTime.parse(reminderTime) }.getOrElse { LocalTime.of(19, 0) }
+    }
+
+    private fun normaliseUnit(unit: String): String {
+        return if (unit.equals(UNIT_WEEKS, ignoreCase = true)) UNIT_WEEKS else UNIT_DAYS
     }
 }
-
-

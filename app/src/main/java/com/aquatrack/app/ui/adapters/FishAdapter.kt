@@ -25,7 +25,7 @@ class FishAdapter(
     fun setTankTargetTemp(temp: Float?) {
         if (tankTargetTempC == temp) return
         tankTargetTempC = temp
-        notifyDataSetChanged()
+        notifyItemRangeChanged(0, itemCount)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FishViewHolder {
@@ -92,7 +92,7 @@ class FishAdapter(
 
             val outOfRange = tankTargetTempC?.let { it < fish.minTempC || it > fish.maxTempC } == true
             if (outOfRange) {
-                subtitle.text = baseMeta + "\n" + context.getString(R.string.fish_temp_mismatch, tankTargetTempC)
+                subtitle.text = context.getString(R.string.fish_meta_with_temp_warning, baseMeta, tankTargetTempC)
                 subtitle.setTextColor(ContextCompat.getColor(context, R.color.aquatrack_warning))
                 card.strokeColor = ContextCompat.getColor(context, R.color.aquatrack_warning)
                 card.setCardBackgroundColor(ContextCompat.getColor(context, R.color.aquatrack_warning_container))
